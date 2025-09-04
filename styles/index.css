@@ -1,0 +1,35 @@
+:root {
+  --slidev-theme-primary: #4391d0;
+}
+
+.bb-center-horizontally {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bb-center-vertically {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.slidev-layout ul {
+    list-style-type: disc;
+}
+
+ul {
+    list-style-type: disc;
+}
+
+ol {
+    list-style-type: decimal;
+}
+
+
+/*
+ * Don't show backticks on inline code.
+ * https://github.com/slidevjs/slidev/issues/818
+ */
+
+:not(pre) > code::before, :not(pre) > code::after {
+    content: "";
+}
