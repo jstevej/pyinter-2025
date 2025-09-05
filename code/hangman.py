@@ -12,7 +12,8 @@ print("Let's play hangman!")
 
 while True:
     print()
-    print(word_with_blanks)
+    print(' '.join(word_with_blanks))
+    print()
     print(f"Incorrect guesses: {', '.join(incorrect_guesses)}")
     print(f"You have {num_guesses} guesses left.")
     letter = input("Guess a letter: ").lower()

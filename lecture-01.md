@@ -37,7 +37,7 @@ for person in each_of_us:
 # <BbHousekeeping/> Meeting Times
 
 - Lecture
-  - In person: Thursday 11:30 am - 1:00 pm
+  - In person: Thursday 10:00 am - 11:30 am
   - Attendance mandatory
 
 ---
@@ -162,6 +162,17 @@ This message contains ? characters.
 
 ---
 
+# <BbPython/> Self-Referential Statement Solution
+
+```python
+for i in range(1000000):
+    message = f"This message contains {i} characters."
+    if len(message) == i:
+        print(message)
+```
+
+---
+
 # <BbPython/> Warm-up 2: Isograms
 
 - Write a program that asks for a single word as input
@@ -171,6 +182,27 @@ This message contains ? characters.
 <br/>
 <br/>
 <img src="/lecture-01-isogram.png" class="bb-center-horizontally" style="width: 800px" />
+
+---
+
+# <BbPython/> Isograms: Solution
+
+```python
+while True:
+    word = input("Enter a word: ")
+    lcword = word.lower()
+
+    letters = []
+
+    for letter in lcword:
+        if letter in letters:
+            print(f"{word} is not an isogram.")
+            break
+        letters.append(letter)
+
+    if (len(letters) == len(lcword)):
+        print(f"{word} is an isogram.")
+```
 
 ---
 
@@ -185,10 +217,35 @@ This message contains ? characters.
 <img src="/lecture-01-brackets.png" class="bb-center-horizontally" style="width: 800px" />
 
 ---
+
+# <BbPython/> Brackets: Solution
+
+```python
+while True:
+    statement = input("Enter a statement: ")
+    stack = []
+    brackets = {"(": ")", "[": "]", "{": "}"}
+    matched = True
+
+    for ch in statement:
+        if ch in brackets:
+            stack.append(ch)
+        elif ch in brackets.values():
+            if len(stack) == 0 or brackets[stack.pop()] != ch:
+                matched = False
+                break
+
+    if matched and len(stack) == 0:
+        print("Brackets match")
+    else:
+        print("Brackets don't match")
+```
+
+---
 layout: bb-two-cols-header
 ---
 
-# <BbPython/> Warm-up 4: Hangman
+# <BbPython/> Homework Assignment 1: Hangman
 
 ::left::
 
@@ -196,241 +253,14 @@ layout: bb-two-cols-header
 - The program chooses a word
 - The human guesses
 - Create a short list of possible words (for now)
-- Don't display the hangman drawing (for now), just show the number of remaining guesses
 - Show:
   - Blanks and correct guesses
   - Incorrect guesses
   - Number of remaining guesses
-
+  - Win/lose message
+- Handle invalid input and repeat guesses
+- Optional: display the hangman drawing
 
 ::right::
 
 <img src="/lecture-01-hangman.png" class="bb-center-horizontally" style="width: 300px" />
-
----
-
-# <BbPython/> What About More Words?
-
-- Let's read them from a file
-
----
-layout: bb-two-cols-header
----
-
-# <BbPython/> Reading Files
-
-::left::
-
-<img src="/lecture-01-file-open-syntax.png" class="bb-center-horizontally" style="width: 400px" />
-
-
-<br/>
-<br/>
-
-#### Example
-
-```python
-file = open("file.txt", "r", encoding="utf-8")
-# do stuff with file...
-file.close()
-```
-
-::right::
-
-- File name:
-  - If no path, then file is in same directory from which you ran the program
-  - Path can specify other location
-- Mode:
-  - `"r"`: open for reading
-  - `"w"`: open for writing (erases existing content)
-  - `"x"`: open for exclusive creation (fails if file already exists)
-  - `"a"`: open for appending
-  - `"b"`: binary mode
-  - `"t"`: text mode
-  - `"+"`: open for updating (reading and writing)
-
----
-layout: bb-two-cols-header
----
-
-# <BbPython/> File Paths
-
-::left::
-
-- Files are organized on your hard drive in *directories* (also called folders)
-- Separated by `/` on Mac and Linux, `\` on Windows
-- Mac and Linux example:
-  - `/home/Users/steve/stuff/words.txt`
-- Windows Example:
-  - `C:\Users\Steve\stuff\words.txt`
-  - Note: Windows also includes drive letter
-- These are *absolute* paths
-  - Specify exact location starting from system root
-- Relative paths specify location relative to your current directory
-  - `..` means go up one directory
-  - Example: `../../other-files/words.txt`
-
-::right::
-
-<img src="/lecture-01-folders.png" class="bb-center-horizontally" style="width: 200px" />
-
----
-
-# <BbPython/> `os.path` Module
-
-- Lets us deal with paths, files, and directories in an OS-agnostic way
-
-```python
-from os import path
-
-# results in:
-#     ../stuff/words.txt on Mac/Linux
-#     ..\stuff\words.txt on Windows
-
-mypath = path.join('..', 'stuff', 'words.txt')
-
-path.dirname(mypath) # returns ../stuff
-path.exists(mypath) # returns True if the file exists
-
-path.isdir(mypath)  # returns True if path is a directory
-path.isfile(mypath)  # returns True if path is a file
-```
-
-- See documentation for `os.path` for more useful functions
-
----
-layout: bb-two-cols-header
----
-
-# <BbPython/> `with` Statement
-
-::left::
-
-```python
-from os import path
-
-words_path = path.join('stuff', 'words.txt')
-
-with open(words_path, 'r', encoding="utf-8") as file:
-    # do stuff with file
-```
-
-<br/>
-<br/>
-
-- Alternative to `open` and `close`
-- Automatically opens and closes the file for us
-- Prevents errors from forgetting to close the file
-- Expresses intent
-
-::right::
-
-```python
-from os import path
-
-words_path = path.join('stuff', 'words.txt')
-
-file = open(words_path, 'r', encoding="utf-8")
-# do stuff with file
-file.close()
-```
-
----
-layout: bb-two-cols-header
----
-
-# <BbPython/> File Not Found Error
-
-::left::
-
-```python
-from os import path
-
-words_path = path.join('stuff', 'words.txt')
-
-with open(words_path, 'r', encoding="utf-8") as file:
-    # do stuff with file
-```
-
-::right::
-
-<img src="/lecture-01-file-error.png" class="bb-center-horizontally" style="width: 400px" />
-
-<br/>
-<br/>
-
-- You'll see this if:
-  - Your filename doesn't match
-  - Your path is wrong
-  - Your file isn't in the directory
-
----
-layout: bb-two-cols-header
----
-
-# <BbPython/> Reading from the File
-
-::left::
-
-- `file.read()`
-  - read the entire file as a string
-- `file.readline()`
-  - read the next line as a string
-- `file.readlines()`
-  - read the file as a list of strings
-- `for line in file:`
-  - iterate over each line in the file
-
-<br/>
-
-- line contains newline character(s) `\n`, or `\r\n`
-- remove them with `string.strip()`
-
-::right::
-
-```python
-from os import path
-
-words_path = path.join("stuff", "words.txt")
-words = []
-
-with open(words_path, "r", encoding="utf-8") as file:
-    for line in file:
-          sline = line.strip()
-          if len(sline) >= 4 and len(sline) <= 7:
-              words.append(sline)
-```
-
-<br/>
-
-- Now you can read words from a file for your hangman program
-  - [10,000 most common english words](https://www.mit.edu/~ecprice/wordlist.10000)
-  - [Scrabble word list](https://gist.github.com/deostroll/7693b6f3d48b44a89ee5f57bf750bd32)
-  - [Large english words list](https://raw.githubusercontent.com/dwyl/english-words/refs/heads/master/words_alpha.txt)
-
----
-layout: bb-two-cols-header
----
-
-# <BbPython/> Improve Your Program
-
-- Handle invalid input
-- Handle guessing a letter that was already guessed
-- No global variables
-
----
-
-# <BbPython/> Homework 1: Evil Hangman
-
-- Start with your improved hangman program
-- Just like hangman except computer can change its word to keep you guessing
-- Previous correct and incorrect guesses must remain true
-- Whenever you guess, computer changes word (if possible) to make your guess a miss
-- Will probably need to allow more guesses
-- Example:
-    - `_ _ _ _` incorrect guesses: a, b, d, e, f, g, h, j, k, l, m, o, p, q, r, s, t, u, v
-    - `_ i _ _` incorrect guesses: a, b, d, e, f, g, h, j, k, l, m, o, p, q, r, s, t, u, v
-    - `_ i n _` incorrect guesses: a, b, d, e, f, g, h, j, k, l, m, o, p, q, r, s, t, u, v
-    - `z i n _` incorrect guesses: a, b, d, e, f, g, h, j, k, l, m, o, p, q, r, s, t, u, v
-    - `z i n c` incorrect guesses: a, b, d, e, f, g, h, j, k, l, m, o, p, q, r, s, t, u, v
-- Alternatively, play normally until first letter guessed correctly, then play evil
