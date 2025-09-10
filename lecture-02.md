@@ -112,7 +112,7 @@ layout: bb-two-cols-header
 
 ::left::
 
-<img src="/lecture-01-file-open-syntax.png" class="bb-center-horizontally" style="width: 400px" />
+<img src="/lecture-02-file-open-syntax.png" class="bb-center-horizontally" style="width: 400px" />
 
 
 <br/>
@@ -163,7 +163,7 @@ layout: bb-two-cols-header
 
 ::right::
 
-<img src="/lecture-01-folders.png" class="bb-center-horizontally" style="width: 200px" />
+<img src="/lecture-02-folders.png" class="bb-center-horizontally" style="width: 200px" />
 
 ---
 
@@ -245,7 +245,7 @@ with open(words_path, 'r', encoding="utf-8") as file:
 
 ::right::
 
-<img src="/lecture-01-file-error.png" class="bb-center-horizontally" style="width: 400px" />
+<img src="/lecture-02-file-error.png" class="bb-center-horizontally" style="width: 400px" />
 
 <br/>
 <br/>
