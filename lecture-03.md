@@ -196,7 +196,7 @@ layout: bb-two-cols-header
   - Tips
     - Make truth tables for light 1
     - Write algebraic expression for light 1
-    - Light 2 is opposite of light 1
+    - Light 2 should be easy to figure out once you get light 1
 
 ::right::
 
