@@ -11,23 +11,17 @@ class Game:
         self.num_cells_x = 256
         self.num_cells_y = 144
         self.density = 0.3
-        self.color_change_prob = 0.001
+        self.color_change_prob = 0.0001
         self.neighbor_range = 1
-        self.vision_range = 2
+        self.vision_range = 1
         self.desired_similar_neighbors = 2
-        # self.group_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
-        self.group_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255), (0, 255, 255)]
+        self.group_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
+        # self.group_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255), (0, 255, 255)]
         self.num_groups = len(self.group_colors)
         self.reset()
         self.clock = pygame.time.Clock()
         self.dt = 0 # elapsed time between frames, in seconds
         self.running = True
-        #self.sprites = pygame.sprite.Group()
-
-        # create your sprites here, then add them to the sprites group
-        #
-        # my_sprite = MySprite()
-        # self.sprites.add(my_sprite)
 
     def compute_similar_neighbors(self, x, y):
         cell = self.grid[y][x]
@@ -50,7 +44,6 @@ class Game:
 
     def draw(self):
         self.screen.fill((0, 0, 0))
-        #self.sprites.draw(self.screen)
         for y in range(self.num_cells_y):
             for x in range(self.num_cells_x):
                 cell = self.grid[y][x]
@@ -86,6 +79,23 @@ class Game:
         else:
             return None
 
+    def find_random_location(self, x, y, current_similar_neighbors):
+        possible_locations = []
+
+        for dy in range(-self.vision_range, self.vision_range + 1):
+            for dx in range(-self.vision_range, self.vision_range + 1):
+                if dy == 0 and dx == 0:
+                    continue
+                nx = (x + dx) % self.num_cells_x
+                ny = (y + dy) % self.num_cells_y
+                if self.grid[ny][nx] is None:
+                    possible_locations.append((nx, ny))
+
+        if len(possible_locations) > 0:
+            return random.choice(possible_locations)
+
+        return None
+
     def handle_events(self):
         events = pygame.event.get()
         for event in events:
@@ -114,7 +124,6 @@ class Game:
             self.grid.append(row)
 
     def update(self):
-        #self.sprites.update(self.dt)
         for y in range(self.num_cells_y):
             for x in range(self.num_cells_x):
                 cell = self.grid[y][x]
@@ -124,7 +133,8 @@ class Game:
                     self.grid[y][x] = random.randrange(self.num_groups)
                 similar_neighbors, _ = self.compute_similar_neighbors(x, y)
                 if similar_neighbors < self.desired_similar_neighbors:
-                    new_location = self.find_better_location(x, y, similar_neighbors)
+                    # new_location = self.find_better_location(x, y, similar_neighbors)
+                    new_location = self.find_random_location(x, y, similar_neighbors)
                     if new_location is not None:
                         nx, ny = new_location
                         self.grid[ny][nx] = self.grid[y][x]
