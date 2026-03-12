@@ -12,4 +12,6 @@
   - pip install pybullet
   - conda install -c conda-forge pybullet
 
-  
+- export from onshape to pybullet:
+  - https://onshape-to-robot.readthedocs.io/en/latest/index.html
+
